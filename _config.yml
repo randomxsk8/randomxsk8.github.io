@@ -48,3 +48,8 @@ topics:
   - name: QGIS
     web_url: https://github.com/qgis
     image_url: https://www.3liz.com/en/images/logo-qgis.png
+    
+theme: jekyll-theme-minimal
+title: The RandomX Side
+description: Appunti, howto e robba forse utile
+logo: https://static-cdn.jtvnw.net/jtv_user_pictures/e706feed-63be-40d3-8d59-c949f6cd783c-profile_image-300x300.png
