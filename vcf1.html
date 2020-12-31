@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>The RandomX Side | Appunti, howto e robba forse utile</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="The RandomX Side" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Appunti, howto e robba forse utile" />
+<meta property="og:description" content="Appunti, howto e robba forse utile" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="The RandomX Side" />
+<script type="application/ld+json">
+{"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://static-cdn.jtvnw.net/jtv_user_pictures/e706feed-63be-40d3-8d59-c949f6cd783c-profile_image-300x300.png"}},"@type":"WebSite","url":"http://localhost:4000/","headline":"The RandomX Side","name":"The RandomX Side","description":"Appunti, howto e robba forse utile","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="/assets/css/style.css?v=7067db35cdb59037d886a3115ca4ff4ce10fe42d">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="http://localhost:4000/">The RandomX Side</a></h1>
+        
+        
+          <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/e706feed-63be-40d3-8d59-c949f6cd783c-profile_image-300x300.png" alt="Logo" />
+        
+
+        <p>Appunti, howto e robba forse utile</p>
+
+        
+        <p class="view"><a href="./chi_sono.html">Chi sono</a></p>
+      </header>
+
+
+
+<!--  inserice testo qui delle pagine qui -->      
+<section>
+<br>
+<br>
+<br>
+<br>
+<h2> Cos'è un VCF? </h2>
+<br>
+<p align="justify">
+Inutile entrare in dettaglio al 90% se siete qui già sapete cos'è. Un vcf è un file di testo che se è più grosso di 200mb e lo aprite per vedere cosa c'è scritto siete fottuti. Di conseguenza o vi toccherà aspettare che il pc finisca di impallarsi oppure dovrete ricorrere a qualche magia nera.
+<br>
+In breve:
+<blockquote cite=""https://it.wikipedia.org/">
+ Il Variant Call Format (VCF) è un formato di file testuale di tipo tab-separated usato in bioinformatica per raccogliere le varianti genomiche ed attualmente è alla versione 4.3. Il formato permette di descrivere in formato tabulare le varianti genomiche più comuni di un genoma, insieme alla possibilità di inserire annotazioni e metadati.
+ </blockquote>
+<br>
+Copiato e incollato da <a href="https://it.wikipedia.org">Wikipedia</a>, se volete approfondire ecco il <a href="https://it.wikipedia.org/wiki/Variant_Call_Format">link</a>.
+<br>
+<br>
+<br>
+<h3>Iniziamo. Estrazione di una regione da un vcf </h3>
+Voglio estrarre per il cromosoma 10 tutti gli individui e gli SNPs che si trovano nella regione 83,388,407-83,408,407.
+<br>
+Come Faccio?
+<br>
+I dataset con i vcf dei 1000 genomi sono disponibili su questo  <a href=" https://www.internationalgenome.org/category/vcf/ ">ftp</a>
+<br>
+Ma come posso fare a estrarre questa regione?
+<br>
+Il programma che useremo è <a href="https://samtools.github.io/bcftools/bcftools.html">BCFtools</a>. Grazie a questo software non dovremo scaricare i migliaia di mega del vcf ma da linea di comando digiteremo il segente comando:
+<br>
+<br>
+
+<blockquote>
+bcftools view -r 10:83388407-83408407 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr10.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz > ALL.chr10.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz
+</blockquote>
+<br>
+Ora abbiamo il nostro vcf con la regione che ci interessa.
+<br>
+E se volessimo solo alcuni individui?
+<br>
+In questo caso dovrei salvarmi i codici su una lista e poi rieseguire il comando ma con una piccola modifica, con il parametro -s inserito. Infatti s sta per sample. Dopo questo parametro scriviamo i codici degli individui che vogliamo separati da una virgola (qui ho scelto a caso questi cinque:HG01362,HG01606,HG02895,NA19909,NA21126):
+<br>
+<br>
+<blockquote>
+bcftools view -r 10:83388407-83408407 -s HG01362,HG01606,HG02895,NA19909,NA21126 ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/ALL.chr10.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz > ALL.chr10.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz
+</blockquote>
+<br>
+<br>
+<h4> Si tutto molto bello ma nel caso non sapessi manco come si installa questo bcftools? </h4>
+E hai ragione.
+Qui di seguito viene riportata la procedura per installare questo sofware su una macchina Linux. E' la stessa che puoi trovare a questo <a href="https://www.htslib.org/download/">link</a>.
+<br>
+Hai bisogno di scaricare 3 pacchetti: <a href="https://github.com/samtools/samtools/releases/download/1.11/samtools-1.11.tar.bz2">SAMtools</a>,  <a href="https://github.com/samtools/bcftools/releases/download/1.11/bcftools-1.11.tar.bz2">BCFtools</a> e infine <a href="https://github.com/samtools/htslib/releases/download/1.11/htslib-1.11.tar.bz2">HTSlib</a>. Per sapere cosa fanno e a che servono visita il link che ti ho messo sopra. 
+Per prima cosa, se non avete mai compilato un pacchetto Linux da sorgente dovrete installare tutte le dipendenze e programmi che vi permettono di compilare il pacchetto sulla vostra macchina. Digitiamo quindi:<br><br>
+
+<blockquote>
+sudo apt-get install build-essentials</blockquote>
+<br>
+
+Ora possiamo continuare la nostra installazione.
+Decomprimete tutte e tre le cartelle e iniziamo recandoci nella cartella di samtools dalla shell<br><br>
+
+<blockquote>
+cd Scaricati/cd samtools-1.11<br>
+./configure<br>
+make<br>
+sudo make install<br>
+</blockquote><br>
+
+
+Facciamo la stessa cosa per le altre cartelle che abbiamo scaricato ovvero BFCtools e HTSlib<br><br>
+<h4> Ha funzionato? </h4>
+Per saperlo basta aprire la nostra shell linux e digitare bcftools. 
+Come vediamo nell'immagine:
+<br>
+<br>
+<img src="images/samtools.png">
+<br>
+<br>
+
+Nel caso la shell non rilevasse il comando. Proviamo per prima cosa a chiudere e riaprila. Se neanche così non viene riconosciuto il comando vuol dire che dobbiamo inserirlo dentro il nostro file bashrc. Questo file contiene tutte le istruzioni degli eseguibili installati e dove cercarli nel nostro sistema.
+<br>
+<br>
+<blockquote>
+export PATH=/dove/è/installato/bin:$PATH
+</blockquote>
+<br>
+Nel caso non sapessimo dove si trovi il nostro path basta fare il seguente comando sulla shell:
+<br>
+<br>
+<blockquote>
+whereis bcftools
+</blockquote>
+<br>
+E andiamo a sostituire l'output nel comando precedente in questo caso:
+<br>
+<br>
+<blockquote>
+export PATH=/usr/local/bin:$PATH
+</blockquote>
+</p>
+</section>
+      
+      <footer>
+        
+        <p>This project is maintained by <a href="https://github.com/randomxsk8">randomxsk8</a></p>
+        
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="/assets/js/scale.fix.js"></script>
+    
+  </body>
+</html>
