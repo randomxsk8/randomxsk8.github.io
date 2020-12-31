@@ -63,3 +63,5 @@ topics:
     web_url: https://github.com/qgis
     image_url: https://www.3liz.com/en/images/logo-qgis.png
     
+
+theme: jekyll-theme-architect
